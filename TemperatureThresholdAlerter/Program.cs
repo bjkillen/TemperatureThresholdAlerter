@@ -26,20 +26,20 @@ public class Program
         {
             thermometerAlerter.Validate();
 
-            bool keepCalculating = true;
+            bool keepChecking = true;
 
             Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e) {
-                keepCalculating = false;
+                keepChecking = false;
                 e.Cancel = true;
 
                 Console.WriteLine("Ctrl+C detected, please press enter to close program");
             };
 
-            BaseController baseController = new(thermometerAlerter);
+            BaseController baseController = new(thermometerAlerter, thresholdsResult, true, true);
 
-            while (keepCalculating)
+            while (keepChecking)
             {
-                if (!keepCalculating)
+                if (!keepChecking)
                 {
                     break;
                 }
@@ -57,9 +57,9 @@ public class Program
                     continue;
                 }
 
-                TemperatureThresholdCheckResult result = baseController.CheckThresholds((float)tempInput);
- 
-                Console.WriteLine(result.Message());
+                TemperatureThresholdCheckResult? result = baseController.CheckThresholds((float)tempInput);
+
+                Console.WriteLine(result?.Message() ?? "Nothing new to report");
             }
         }
         catch (AggregateException e)
