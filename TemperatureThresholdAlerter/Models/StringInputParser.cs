@@ -34,7 +34,26 @@ namespace TemperatureThresholdAlerter.Models
 
         public static float? ParseTemperatureInput(string? inputText)
         {
-            return FloatExtensions.TryParse(inputText);
+            if (string.IsNullOrEmpty(inputText))
+            {
+                return null;
+            }
+
+            var numbersMatch = RegexHelper.MatchesValidNumber(inputText);
+
+            if (!numbersMatch.Success)
+            {
+                return null;
+            }
+
+            var parsedTemp = FloatExtensions.TryParse(numbersMatch.Value);
+
+            if ((parsedTemp is not null) && (inputText?.ToLower().Contains('f') ?? false))
+            {
+                return TemperatureHelper.ConvertToCelsius((float)parsedTemp);
+            }
+
+            return parsedTemp;
         }
     }
 }
