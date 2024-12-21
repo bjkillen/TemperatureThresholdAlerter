@@ -18,17 +18,14 @@ namespace TemperatureThresholdAlerter.Models
 
         private TemperatureThresholdCheckResultEnum Result { get; set; }
 
-        public String Message()
+        public readonly string Message()
         {
-            switch (this.Result)
+            return Result switch
             {
-                case TemperatureThresholdCheckResultEnum.BoilingPointReachedOrExceeded:
-                    return "Temperature is at or above boiling point";
-                case TemperatureThresholdCheckResultEnum.FreezingPointReachedOrSubceeded:
-                    return "Temperature is at or below freezing point";
-                default:
-                    return "Temperature is between boiling and freezing points";
-            }
+                TemperatureThresholdCheckResultEnum.BoilingPointReachedOrExceeded => "Temperature is at or above boiling point",
+                TemperatureThresholdCheckResultEnum.FreezingPointReachedOrSubceeded => "Temperature is at or below freezing point",
+                _ => "Temperature is between boiling and freezing points",
+            };
         }
     }
 }
