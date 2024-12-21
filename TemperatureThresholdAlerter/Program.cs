@@ -26,15 +26,41 @@ public class Program
         {
             thermometerAlerter.Validate();
 
-            BaseController
-            Console.WriteLine("");
-            Console.WriteLine("Please provide current temperature");
+            bool keepCalculating = true;
 
-            string? temperatureInputText = Console.ReadLine();
+            Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e) {
+                keepCalculating = false;
+                e.Cancel = true;
 
-            float? tempInput = StringInputParser.ParseTemperatureInput(temperatureInputText);
+                Console.WriteLine("Ctrl+C detected, please press enter to close program");
+            };
 
+            BaseController baseController = new(thermometerAlerter);
 
+            while (keepCalculating)
+            {
+                if (!keepCalculating)
+                {
+                    break;
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("Please provide current temperature");
+
+                string? temperatureInputText = Console.ReadLine();
+
+                float? tempInput = StringInputParser.ParseTemperatureInput(temperatureInputText);
+
+                if (tempInput is null)
+                {
+                    Console.WriteLine("Please provide valid temperature input");
+                    continue;
+                }
+
+                TemperatureThresholdCheckResult result = baseController.CheckThresholds((float)tempInput);
+ 
+                Console.WriteLine(result.Message());
+            }
         }
         catch (AggregateException e)
         {

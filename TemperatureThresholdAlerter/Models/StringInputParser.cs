@@ -23,7 +23,7 @@ namespace TemperatureThresholdAlerter.Models
 
     public class StringInputParser
     {
-        public static TemperatureThresholdsResult ParseThresholdInput(
+        public static TemperatureThresholdsResult ParseThresholdsInput(
                 string? boilingPointInputText, string? freezingPointInputText)
         {
             float? boilingPointParsedResult = ParseTemperatureInput(boilingPointInputText);

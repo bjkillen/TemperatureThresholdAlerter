@@ -37,5 +37,19 @@ namespace TemperatureThresholdAlerter.Models
                     this.Thresholds.FreezingPointThreshold);
             }
         }
+
+        public TemperatureThresholdCheckResult CheckThresholds(float temperature)
+        {
+            if (temperature >= this.Thresholds.BoilingPointThreshold)
+            {
+                return new(TemperatureThresholdCheckResultEnum.BoilingPointReachedOrExceeded);
+            }
+            else if (temperature <= this.Thresholds.FreezingPointThreshold)
+            {
+                return new(TemperatureThresholdCheckResultEnum.FreezingPointReachedOrSubceeded);
+            }
+
+            return new(TemperatureThresholdCheckResultEnum.InBetweenBoilingAndFreezingPoints);
+        }
     }
 }

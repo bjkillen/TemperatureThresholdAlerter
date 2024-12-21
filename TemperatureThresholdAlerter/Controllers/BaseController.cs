@@ -13,9 +13,11 @@ namespace TemperatureThresholdAlerter.Controllers
 
         private ThermometerThresholdAlerter TemperatureThresholdAlerter { get; set; }
 
-        public TemperatureThresholdCheckResult CheckThresholds(string? inputText)
+        public TemperatureThresholdCheckResult CheckThresholds(float inputTemperature)
         {
+            var temperatureThresholdResult = this.TemperatureThresholdAlerter.CheckThresholds(inputTemperature);
 
+            return temperatureThresholdResult;
         }
     }
 }
