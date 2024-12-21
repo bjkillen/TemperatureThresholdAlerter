@@ -29,7 +29,7 @@ namespace TemperatureThresholdAlerter.Controllers
         private bool AlertOnlyWhenTempEntersFromOutsideThresholds { get; set; }
         private bool AlertOnlyWhenChangeIsSignificant { get; set; }
 
-        private static float TemperatureChangeInsignifiganceThreshold = 0.5f;
+        private static readonly float TemperatureChangeInsignifiganceThreshold = 0.5f;
 
         public TemperatureThresholdCheckResult? CheckThresholds(float inputTemperature)
         {
@@ -38,43 +38,44 @@ namespace TemperatureThresholdAlerter.Controllers
             var previousResult = PreviousResult;
             PreviousResult = temperatureThresholdResult;
 
-            if (AlertOnlyWhenChangeIsSignificant)
+            if (AlertOnlyWhenChangeIsSignificant && temperatureThresholdResult != previousResult)
             {
-                if (Thresholds.BoilingPointThreshold is not null)
+                if (temperatureThresholdResult.Result == TemperatureThresholdCheckResultEnum.BoilingPointReachedOrExceeded)
                 {
-                    var boilingPointTemperatureDeltaAbs = Math.Abs(inputTemperature - (float)Thresholds.BoilingPointThreshold);
-
-                    if (boilingPointTemperatureDeltaAbs <= TemperatureChangeInsignifiganceThreshold)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return temperatureThresholdResult;
-                    }
+                    TemperatureThresholdAlerter.UpdateThresholds(
+                        new TemperatureThresholdsResult(
+                            Thresholds.BoilingPointThreshold - TemperatureChangeInsignifiganceThreshold,
+                            Thresholds.FreezingPointThreshold
+                        )
+                    );
                 }
-
-                if (Thresholds.FreezingPointThreshold is not null)
+                else if (temperatureThresholdResult.Result == TemperatureThresholdCheckResultEnum.FreezingPointReachedOrSubceeded)
                 {
-                    var freezingPointTemperatureDeltaAbs = Math.Abs(inputTemperature - (float)Thresholds.FreezingPointThreshold);
+                    TemperatureThresholdAlerter.UpdateThresholds(
+                        new TemperatureThresholdsResult(
+                            Thresholds.BoilingPointThreshold,
+                            Thresholds.FreezingPointThreshold + TemperatureChangeInsignifiganceThreshold
+                            
+                        )
+                    );
+                }
+                else if (temperatureThresholdResult.Result == TemperatureThresholdCheckResultEnum.InBetweenBoilingAndFreezingPoints)
+                {
+                    TemperatureThresholdAlerter.UpdateThresholds(
+                        new TemperatureThresholdsResult(
+                            Thresholds.BoilingPointThreshold,
+                            Thresholds.FreezingPointThreshold
 
-                    if (freezingPointTemperatureDeltaAbs <= TemperatureChangeInsignifiganceThreshold)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return temperatureThresholdResult;
-                    }
+                        )
+                    );
                 }
             }
 
-            if (temperatureThresholdResult == previousResult)
-            {
-                if (AlertOnlyWhenTempEntersFromOutsideThresholds)
-                {
-                    return null;
-                } 
+            if (temperatureThresholdResult.Result != TemperatureThresholdCheckResultEnum.InBetweenBoilingAndFreezingPoints &&
+                temperatureThresholdResult == previousResult &&
+                AlertOnlyWhenTempEntersFromOutsideThresholds
+            ) {
+                return null;
             }
 
             return temperatureThresholdResult;

@@ -9,18 +9,18 @@ namespace TemperatureThresholdAlerter.Models
             Thresholds = thresholds;
         }
 
-        public TemperatureThresholdsResult Thresholds { get; }
+        private TemperatureThresholdsResult Thresholds { get; set; }
 
         public void Validate()
         {
             var invalidInputExceptions = new List<Exception>();
 
-            if (this.Thresholds.BoilingPointThreshold == null)
+            if (Thresholds.BoilingPointThreshold == null)
             {
                 invalidInputExceptions.Add(new InvalidBoilingPointException());
             }
 
-            if (this.Thresholds.FreezingPointThreshold == null)
+            if (Thresholds.FreezingPointThreshold == null)
             {
                 invalidInputExceptions.Add(new InvalidFreezingPointException());
             }
@@ -30,7 +30,7 @@ namespace TemperatureThresholdAlerter.Models
                 throw new AggregateException(invalidInputExceptions);
             }
 
-            if (this.Thresholds.BoilingPointThreshold <= this.Thresholds.FreezingPointThreshold)
+            if (Thresholds.BoilingPointThreshold <= this.Thresholds.FreezingPointThreshold)
             {
                 throw new BoilingPointMustBeAboveFreezingException
                     (this.Thresholds.BoilingPointThreshold,
@@ -50,6 +50,11 @@ namespace TemperatureThresholdAlerter.Models
             }
 
             return new(TemperatureThresholdCheckResultEnum.InBetweenBoilingAndFreezingPoints);
+        }
+
+        public void UpdateThresholds(TemperatureThresholdsResult newThresholds)
+        {
+            Thresholds = newThresholds;
         }
     }
 }

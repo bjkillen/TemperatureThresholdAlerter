@@ -16,7 +16,7 @@ namespace TemperatureThresholdAlerter.Models
             Result = result;
         }
 
-        private TemperatureThresholdCheckResultEnum Result { get; set; }
+        public readonly TemperatureThresholdCheckResultEnum Result { get; }
 
         public readonly bool Equals(TemperatureThresholdCheckResult other)
         {
