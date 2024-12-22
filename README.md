@@ -17,5 +17,9 @@ Thermometer Take Home Test from Blaine Killen
     * **or**
     * In Visual Studio, Git -> Pull
 
-## Use of Comand Line Tool
+## Use of Comand Line Interface
 * Command line interface is for testing and using code implemented for requirements
+
+## Unit Tests
+* Given timeframe and requirements, unit tests were ommitted but will add them if that changes
+* Will utilize xUnit for implementation
