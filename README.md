@@ -1,4 +1,4 @@
-﻿# Temperature Threshold Alerter
+# Temperature Threshold Alerter
 Thermometer Take Home Test from Blaine Killen
 
 ## Technologies
@@ -17,7 +17,7 @@ Thermometer Take Home Test from Blaine Killen
     * **or**
     * In Visual Studio, Git -> Pull
 
-## Use of Comand Line Interface
+## Use of Command Line Interface
 * Command line interface is for testing and using code implemented for requirements
 
 ## Unit Tests
