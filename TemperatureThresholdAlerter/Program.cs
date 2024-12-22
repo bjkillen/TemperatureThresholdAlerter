@@ -29,6 +29,28 @@ public class Program
             // Validate call will throw if boiling is less than or equal to freezing threshold
             thermometerAlerter.Validate();
 
+            Console.WriteLine("");
+            Console.WriteLine("Alert only when temp crosses threshold from above freezing point or below boiling point? (true or false)");
+
+            bool alertOnlyWhenTempEntersFromOutsideThresholds = false;
+
+            try
+            {
+                alertOnlyWhenTempEntersFromOutsideThresholds = bool.Parse(Console.ReadLine() ?? "");
+            }
+            catch { }
+
+            Console.WriteLine("");
+            Console.WriteLine("Alert only when change is significant around threshold? (true or false)");
+
+            bool alertOnlyWhenChangeIsSignificant = false;
+
+            try
+            {
+                bool.Parse(Console.ReadLine() ?? "");
+            }
+            catch { }
+
             bool keepChecking = true;
 
             Console.CancelKeyPress += delegate (object? sender, ConsoleCancelEventArgs e) {
@@ -38,7 +60,12 @@ public class Program
                 Console.WriteLine("Ctrl+C detected, please press enter to close program");
             };
 
-            BaseController baseController = new(thermometerAlerter, thresholdsResult, true, true);
+            BaseController baseController = new(
+                thermometerAlerter,
+                thresholdsResult,
+                alertOnlyWhenTempEntersFromOutsideThresholds,
+                alertOnlyWhenChangeIsSignificant
+            );
 
             while (keepChecking)
             {
