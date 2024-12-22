@@ -26,6 +26,7 @@ public class Program
 
         try
         {
+            // Validate call will throw if boiling is less than or equal to freezing threshold
             thermometerAlerter.Validate();
 
             bool keepChecking = true;
