@@ -8,7 +8,8 @@ Thermometer Take Home Test from Blaine Killen
 ## Installation
 1. Install the latest version of Visual Studio for [Mac](https://visualstudio.microsoft.com/vs/mac/) or [PC](https://visualstudio.microsoft.com/downloads/)
 2. Install .Net Framework 8.0 or latest minor build within major build [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-3. Build using play button inside IDE
+3. Open file TemperatureThresholdAlerter.sln in Visual Studio
+4. Build using play button inside IDE
 
 ## Updates
 1. Pull new source code from remote repo
