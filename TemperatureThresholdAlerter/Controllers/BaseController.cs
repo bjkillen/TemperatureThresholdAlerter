@@ -22,12 +22,12 @@ namespace TemperatureThresholdAlerter.Controllers
             AlertOnlyWhenChangeIsSignificant = alertOnlyWhenChangeIsSignificant;
         }
 
-        private ThermometerThresholdAlerter TemperatureThresholdAlerter { get; set; }
+        private ThermometerThresholdAlerter TemperatureThresholdAlerter { get; }
         public TemperatureThresholdsResult Thresholds { get; }
         private TemperatureThresholdCheckResult PreviousResult { get; set; }
 
-        private bool AlertOnlyWhenTempEntersFromOutsideThresholds { get; set; }
-        private bool AlertOnlyWhenChangeIsSignificant { get; set; }
+        private bool AlertOnlyWhenTempEntersFromOutsideThresholds { get; }
+        private bool AlertOnlyWhenChangeIsSignificant { get; }
 
         private static readonly float TemperatureChangeInsignifiganceThreshold = 0.5f;
 
@@ -55,7 +55,6 @@ namespace TemperatureThresholdAlerter.Controllers
                         new TemperatureThresholdsResult(
                             Thresholds.BoilingPointThreshold,
                             Thresholds.FreezingPointThreshold + TemperatureChangeInsignifiganceThreshold
-                            
                         )
                     );
                 }
@@ -65,15 +64,14 @@ namespace TemperatureThresholdAlerter.Controllers
                         new TemperatureThresholdsResult(
                             Thresholds.BoilingPointThreshold,
                             Thresholds.FreezingPointThreshold
-
                         )
                     );
                 }
             }
 
-            if (temperatureThresholdResult.Result != TemperatureThresholdCheckResultEnum.InBetweenBoilingAndFreezingPoints &&
-                temperatureThresholdResult == previousResult &&
-                AlertOnlyWhenTempEntersFromOutsideThresholds
+            if (AlertOnlyWhenTempEntersFromOutsideThresholds &&
+                temperatureThresholdResult.Result != TemperatureThresholdCheckResultEnum.InBetweenBoilingAndFreezingPoints &&
+                temperatureThresholdResult == previousResult
             ) {
                 return null;
             }

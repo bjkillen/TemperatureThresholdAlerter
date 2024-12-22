@@ -8,6 +8,8 @@ public class Program
         Console.Clear();
 
         Console.WriteLine("Welcome to my temperature threshold alerter!");
+        Console.WriteLine("All temperatures can be expressed in Celsius or Fahrenheit and will default to Celsius.");
+        Console.WriteLine("Ex: 93F, 100 F, 0 C, 100C");
         Console.WriteLine("");
         Console.WriteLine("Please provide a boiling point threshold");
 
