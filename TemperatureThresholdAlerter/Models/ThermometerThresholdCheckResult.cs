@@ -20,9 +20,6 @@ namespace TemperatureThresholdAlerter.Models
 
         public readonly bool Equals(TemperatureThresholdCheckResult other)
         {
-            // Complex is a value type, thus we don't have to check for null
-            // if (other == null) return false;
-
             return (other.Result == Result);
         }
 
